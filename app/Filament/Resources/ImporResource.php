@@ -22,7 +22,7 @@ class ImporResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-arrow-down-tray';
     protected static ?string $navigationLabel = 'Impor';
     protected static ?string $slug = 'impor';
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 10;
 
     public static function form(Form $form): Form
     {

@@ -2,16 +2,20 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\KRSResource\Pages;
-use App\Filament\Resources\KRSResource\RelationManagers;
 use App\Models\KRS;
+use App\Models\MatkulKRS;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\KRSResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\KRSResource\RelationManagers;
 
 class KRSResource extends Resource
 {
@@ -25,7 +29,18 @@ class KRSResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make()
+                    ->schema([
+                        TextInput::make('nama')
+                            ->required()
+                            ->label('Nama KRS')
+                            ->placeholder('Nama')
+                            ->columnSpanFull(),
+                        TextInput::make('deskripsi')
+                            ->label('Deskripsi')
+                            ->placeholder('Deskripsi'),
+                        ])
+                    ->columns(1),
             ]);
     }
 
@@ -33,12 +48,22 @@ class KRSResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('nama')
+                    ->sortable(),
+                TextColumn::make('deskripsi'),
+                TextColumn::make('matkul_krs_count')
+                    ->counts('matkul_krs')
+                    ->label('Jumlah'),
             ])
+            ->modifyQueryUsing(fn(Builder $query) => $query->where('user_id', auth()->user()->id))
             ->filters([
                 //
             ])
             ->actions([
+                Tables\Actions\ViewAction::make()
+                    ->label('Lihat')
+                    ->modalHeading('Lihat KRS'),
+                    // ->modal(),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\EditAction::make()
                         ->label('Edit'),
@@ -62,7 +87,7 @@ class KRSResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            
         ];
     }
 

@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class KRS extends Model
 {
@@ -15,4 +17,18 @@ class KRS extends Model
     public function user(): BelongsTo {
         return $this->belongsTo(User::class);
     }
+
+    // public function mata_kuliah(): BelongsToMany {
+    //     return $this->belongsToMany(MataKuliah::class);
+    // }
+
+    public function matkul_krs(): HasMany {
+        return $this->HasMany(MatkulKRS::class);
+    }
+
+    protected $fillable = [
+        'nama',
+        'deskripsi',
+        'user_id'
+    ];
 }

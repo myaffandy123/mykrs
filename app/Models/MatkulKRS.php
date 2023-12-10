@@ -17,4 +17,9 @@ class MatkulKRS extends Model
     public function mata_kuliah() {
         return $this->belongsTo(MataKuliah::class);
     }
+
+    protected $fillable = [
+        'mata_kuliah_id',
+        'k_r_s_id',
+    ];
 }

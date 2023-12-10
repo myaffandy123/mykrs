@@ -9,6 +9,7 @@ use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -20,7 +21,7 @@ class EksporResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-arrow-up-tray';
     protected static ?string $navigationLabel = 'Ekspor';
     protected static ?string $slug = 'ekspor';
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 11;
 
     public static function form(Form $form): Form
     {
@@ -34,7 +35,7 @@ class EksporResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')
             ])
             ->filters([
                 //
