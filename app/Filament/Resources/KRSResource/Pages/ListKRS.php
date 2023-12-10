@@ -10,7 +10,7 @@ class ListKRS extends ListRecords
 {
     protected static string $resource = KRSResource::class;
 
-    protected static ?string $title = 'KRS';
+    protected static ?string $title = 'Daftar KRS';
 
     protected function getHeaderActions(): array
     {

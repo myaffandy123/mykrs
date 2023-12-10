@@ -32,6 +32,7 @@ class AdminPanelProvider extends PanelProvider
             ->login(Login::class)
             ->registration(Register::class)
             ->profile()
+            ->breadcrumbs(false)
             ->colors([
                 'primary' => Color::Purple,
             ])

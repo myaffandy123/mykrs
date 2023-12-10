@@ -110,8 +110,12 @@ class MataKuliahResource extends Resource
                 // SelectFilter::make('kelas'),
             ])
             ->actions([
-                Tables\Actions\EditAction::make()
-                    ->label('Edit'),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->label('Edit'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -121,13 +125,14 @@ class MataKuliahResource extends Resource
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
                     ->label('Tambah Mata Kuliah'),
-            ]);
+            ])
+            ->emptyStateHeading('Belum ada Mata Kuliah')
+            ->emptyStateDescription('Silakan menambahkan Mata Kuliah baru');
     }
 
     public static function getRelations(): array
     {
         return [
-            //
         ];
     }
 
@@ -148,5 +153,9 @@ class MataKuliahResource extends Resource
     public function getTitle(): string
     {
         return __('MyKRS - Mata Kuliah');
+    }
+
+    public static function getNavigationBadge(): ?string {
+        return static::getModel()::where('user_id', auth()->user()->id)->count();
     }
 }

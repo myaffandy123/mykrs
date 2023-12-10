@@ -9,11 +9,12 @@ use Filament\Resources\Pages\EditRecord;
 class EditKRS extends EditRecord
 {
     protected static string $resource = KRSResource::class;
-
+    protected static ?string $title = 'Edit KRS';
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            Actions\DeleteAction::make()
+                ->label('Hapus KRS'),
         ];
     }
 }

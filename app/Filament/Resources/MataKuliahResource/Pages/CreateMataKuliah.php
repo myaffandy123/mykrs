@@ -9,6 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateMataKuliah extends CreateRecord
 {
     protected static string $resource = MataKuliahResource::class;
+    protected static ?string $title = 'Buat Mata Kuliah';
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {

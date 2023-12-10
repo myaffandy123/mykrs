@@ -9,6 +9,7 @@ use Filament\Resources\Pages\EditRecord;
 class EditMataKuliah extends EditRecord
 {
     protected static string $resource = MataKuliahResource::class;
+    protected static ?string $title = 'Edit Mata Kuliah';
 
     protected function getHeaderActions(): array
     {

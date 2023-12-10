@@ -39,7 +39,12 @@ class KRSResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\ActionGroup::make([
+                    Tables\Actions\EditAction::make()
+                        ->label('Edit'),
+                    Tables\Actions\DeleteAction::make()
+                        ->label('Hapus'),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -78,5 +83,9 @@ class KRSResource extends Resource
     public function getTitle(): string
     {
         return __('MyKRS - KRS');
+    }
+
+    public static function getNavigationBadge(): ?string {
+        return static::getModel()::where('user_id', auth()->user()->id)->count();
     }
 }

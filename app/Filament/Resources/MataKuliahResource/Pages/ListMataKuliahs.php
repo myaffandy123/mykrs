@@ -9,8 +9,7 @@ use Filament\Resources\Pages\ListRecords;
 class ListMataKuliahs extends ListRecords
 {
     protected static string $resource = MataKuliahResource::class;
-    protected static ?string $navigationLabel = 'Mata Kuliah';
-    protected static ?string $title = 'Mata Kuliah';
+    protected static ?string $title = 'Daftar Mata Kuliah';
     protected function getHeaderActions(): array
     {
         return [
