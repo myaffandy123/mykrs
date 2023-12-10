@@ -3,16 +3,23 @@
 namespace App\Filament\Resources;
 
 use App\Models\KRS;
-use App\Models\MatkulKRS;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
+use App\Models\MatkulKrs;
+use App\Models\MataKuliah;
 use Filament\Tables\Table;
+use Filament\Actions\EditAction;
 use Filament\Resources\Resource;
+use Filament\Actions\ActionGroup;
 use Filament\Forms\Components\Card;
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Wizard;
+use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Forms\Components\Wizard\Step;
 use App\Filament\Resources\KRSResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\KRSResource\RelationManagers;
@@ -29,18 +36,46 @@ class KRSResource extends Resource
     {
         return $form
             ->schema([
-                Card::make()
-                    ->schema([
-                        TextInput::make('nama')
-                            ->required()
-                            ->label('Nama KRS')
-                            ->placeholder('Nama')
-                            ->columnSpanFull(),
-                        TextInput::make('deskripsi')
-                            ->label('Deskripsi')
-                            ->placeholder('Deskripsi'),
-                        ])
-                    ->columns(1),
+                // Card::make()
+                //     ->schema([
+                //         TextInput::make('nama')
+                //             ->required()
+                //             ->label('Nama KRS')
+                //             ->placeholder('Nama')
+                //             ->columnSpanFull(),
+                //         TextInput::make('deskripsi')
+                //             ->label('Deskripsi')
+                //             ->placeholder('Deskripsi'),
+                //         ])
+                //     ->columns(1),
+                Wizard::make([
+                    Step::make('Data KRS')
+                        ->schema([
+                            TextInput::make('nama')
+                                ->label('Nama KRS')
+                                ->required(),
+                            TextInput::make('deskripsi')
+                        ]),
+                    Step::make('Input Mata Kuliah')
+                        ->schema([
+                            Repeater::make('matkul_krs')
+                                ->relationship()
+                                ->schema([
+                                    Select::make('mata_kuliah_id')
+                                        ->options(MataKuliah::query()->pluck('nama', 'id'))
+                                        ->label('Mata Kuliah')
+                                        ->native(false)
+                                ])
+                                ->mutateRelationshipDataBeforeCreateUsing(function (array $data): array {
+                                    $data['user_id'] = auth()->id();
+                                    return $data;
+                                })
+                                ->createItemButtonLabel('Tambah Mata Kuliah')
+                                ->label('Daftar Tambah Mata Kuliah')
+                                ->deletable(true)
+                        ]),
+                ])
+                    ->columnSpanFull()
             ]);
     }
 
@@ -60,13 +95,9 @@ class KRSResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->label('Lihat')
-                    ->modalHeading('Lihat KRS'),
-                    // ->modal(),
+                Tables\Actions\EditAction::make()
+                    ->label('Edit'),
                 Tables\Actions\ActionGroup::make([
-                    Tables\Actions\EditAction::make()
-                        ->label('Edit'),
                     Tables\Actions\DeleteAction::make()
                         ->label('Hapus'),
                 ])
@@ -78,7 +109,7 @@ class KRSResource extends Resource
             ])
             ->emptyStateActions([
                 Tables\Actions\CreateAction::make()
-                ->label('KRS Baru'),
+                    ->label('KRS Baru'),
             ])
             ->emptyStateHeading('Belum ada KRS')
             ->emptyStateDescription('Silakan membuat KRS baru');
@@ -87,7 +118,7 @@ class KRSResource extends Resource
     public static function getRelations(): array
     {
         return [
-            
+
         ];
     }
 
@@ -110,7 +141,8 @@ class KRSResource extends Resource
         return __('MyKRS - KRS');
     }
 
-    public static function getNavigationBadge(): ?string {
+    public static function getNavigationBadge(): ?string
+    {
         return static::getModel()::where('user_id', auth()->user()->id)->count();
     }
 }

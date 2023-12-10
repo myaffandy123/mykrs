@@ -5,20 +5,24 @@ namespace App\Filament\Resources;
 use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
-use App\Models\MatkulKRS;
+use App\Models\MatkulKrs;
 use Filament\Tables\Table;
 use App\Models\Visualisasi;
 use Filament\Resources\Resource;
 use Filament\Tables\Grouping\Group;
+use Filament\Tables\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Actions\BulkActionGroup;
+use Filament\Tables\Actions\DeleteBulkAction;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\VisualisasiResource\Pages;
 use App\Filament\Resources\VisualisasiResource\RelationManagers;
+use App\Filament\Resources\VisualisasiResource\Pages\ListVisualisasis;
 
 class VisualisasiResource extends Resource
 {
-    protected static ?string $model = MatkulKRS::class;
+    protected static ?string $model = MatkulKrs::class;
     protected static ?string $navigationIcon = 'heroicon-o-presentation-chart-line';
     protected static ?string $navigationLabel = 'Visualisasi';
     protected static ?string $title = 'Visualisasi';
@@ -62,21 +66,22 @@ class VisualisasiResource extends Resource
             //         ->label('Nama KRS'),
             // ])
             // ->defaultGroup('krs.nama')
-            ->defaultGroup(Group::make('k_r_s_id')
-                ->label('KRS'))
-                // ->getTitleFromRecordUsing(fn (Post $record): string => $record->status->getDescription()))
-            ->filters([
+            ->defaultGroup(Group::make('krs.nama')
+                ->label('')
+                ->titlePrefixedWithLabel(false)
+                ->collapsible()
+            )->filters([
                 //
             ])
-            ->actions([
-                Tables\Actions\ViewAction::make()
-                    ->label('Lihat'),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ])
+            // ->actions([
+            //     Tables\Actions\ViewAction::make()
+            //         ->label('Lihat'),
+            // ])
+            // ->bulkActions([
+            //     Tables\Actions\BulkActionGroup::make([
+            //         Tables\Actions\DeleteBulkAction::make(),
+            //     ]),
+            // ])
             ->emptyStateHeading('Belum ada Visualisasi KRS')
             ->emptyStateDescription('Silakan membuat KRS baru dan menambahkan Mata Kuliah');
     }

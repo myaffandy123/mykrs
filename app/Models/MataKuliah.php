@@ -23,7 +23,7 @@ class MataKuliah extends Model
     // }
 
     public function matkul_krs(): HasMany {
-        return $this->HasMany(MatkulKRS::class);
+        return $this->HasMany(MatkulKrs::class);
     }
 
     protected $fillable = [

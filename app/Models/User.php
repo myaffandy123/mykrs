@@ -26,7 +26,7 @@ class User extends Authenticatable implements HasAvatar
 
     public function krs(): HasMany
     {
-        return $this->hasMany(KRS::class);
+        return $this->hasMany(Krs::class);
     }
 
     /**

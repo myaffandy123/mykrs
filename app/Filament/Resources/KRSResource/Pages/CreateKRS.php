@@ -9,6 +9,7 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateKRS extends CreateRecord
 {
     protected static string $resource = KRSResource::class;
+    // protected static ?string $slug = 'buat';
     protected static ?string $title = 'Buat KRS';
     protected function mutateFormDataBeforeCreate(array $data): array
     {
